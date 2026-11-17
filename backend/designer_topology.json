@@ -1,0 +1,135 @@
+{
+  "nodes": [
+    {
+      "id": "s1",
+      "type": "switch",
+      "label": "s1 \u00b7 Core Switch",
+      "status": "down",
+      "dpid": "0001",
+      "openflow": "1.3"
+    },
+    {
+      "id": "s2",
+      "type": "switch",
+      "label": "s2 \u00b7 Aggregation 1",
+      "status": "down",
+      "dpid": "0002",
+      "openflow": "1.3"
+    },
+    {
+      "id": "s3",
+      "type": "switch",
+      "label": "s3 \u00b7 Aggregation 2",
+      "status": "down",
+      "dpid": "0003",
+      "openflow": "1.3"
+    },
+    {
+      "id": "h1",
+      "type": "host",
+      "label": "h1 \u00b7 Host 1",
+      "status": "down",
+      "ip": "10.0.0.1"
+    },
+    {
+      "id": "h2",
+      "type": "host",
+      "label": "h2 \u00b7 Host 2",
+      "status": "down",
+      "ip": "10.0.0.2"
+    },
+    {
+      "id": "h3",
+      "type": "host",
+      "label": "h3 \u00b7 Host 3",
+      "status": "down",
+      "ip": "10.0.0.3"
+    },
+    {
+      "id": "h4",
+      "type": "host",
+      "label": "h4 \u00b7 Host 4",
+      "status": "down",
+      "ip": "10.0.0.4"
+    }
+  ],
+  "links": [
+    {
+      "id": "link-s1-s2",
+      "source": "s1",
+      "destination": "s2",
+      "cableType": "fiber",
+      "label": "Fiber optic 10 Gbps \u00b7 s1 \u2194 s2",
+      "status": "active",
+      "bandwidth": null,
+      "delay": null,
+      "loss": null
+    },
+    {
+      "id": "link-s2-h1",
+      "source": "s2",
+      "destination": "h1",
+      "cableType": "ethernet",
+      "label": "Ethernet 1 Gbps \u00b7 s2 \u2194 h1",
+      "status": "active",
+      "bandwidth": null,
+      "delay": null,
+      "loss": null
+    },
+    {
+      "id": "link-s1-s3",
+      "source": "s1",
+      "destination": "s3",
+      "cableType": "ethernet",
+      "label": "s1 \u2194 s3",
+      "status": "active",
+      "bandwidth": null,
+      "delay": null,
+      "loss": null
+    },
+    {
+      "id": "link-s2-s3",
+      "source": "s2",
+      "destination": "s3",
+      "cableType": "ethernet",
+      "label": "s2 \u2194 s3",
+      "status": "active",
+      "bandwidth": null,
+      "delay": null,
+      "loss": null
+    },
+    {
+      "id": "link-s2-h2",
+      "source": "s2",
+      "destination": "h2",
+      "cableType": "ethernet",
+      "label": "s2 \u2194 h2",
+      "status": "active",
+      "bandwidth": null,
+      "delay": null,
+      "loss": null
+    },
+    {
+      "id": "link-s3-h3",
+      "source": "s3",
+      "destination": "h3",
+      "cableType": "ethernet",
+      "label": "s3 \u2194 h3",
+      "status": "active",
+      "bandwidth": null,
+      "delay": null,
+      "loss": null
+    },
+    {
+      "id": "link-s3-h4",
+      "source": "s3",
+      "destination": "h4",
+      "cableType": "ethernet",
+      "label": "s3 \u2194 h4",
+      "status": "active",
+      "bandwidth": null,
+      "delay": null,
+      "loss": null
+    }
+  ]
+}

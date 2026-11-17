@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Impact Network Analyzer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:Arial,sans-serif;background:#0b1220;color:#e5e7eb;margin:0}
+    .wrap{max-width:1100px;margin:30px auto;padding:0 20px}
+    h1{margin-bottom:4px}.muted{color:#94a3b8}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+    .card{background:#111827;border:1px solid #243244;border-radius:14px;padding:18px}
+    label{display:block;margin:12px 0 6px}.row{display:flex;gap:10px}
+    input,select,button{padding:11px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#fff}
+    input{width:100%;box-sizing:border-box}button{cursor:pointer;background:#2563eb;border:0}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}
+    .metric{background:#0f172a;padding:14px;border-radius:10px}.value{font-size:25px;font-weight:700}
+    pre{white-space:pre-wrap;max-height:350px;overflow:auto;color:#cbd5e1}
+    @media(max-width:800px){.grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Impact Network Analyzer</h1>
+  <div class="muted">SDN failure simulation • Ryu • OpenFlow • Mininet • NetworkX</div>
+  <div class="grid">
+    <div class="card">
+      <h2>Failure Simulation</h2>
+      <label>Failure type</label>
+      <select id="type"><option value="link">Link Failure</option><option value="node">Node Failure</option></select>
+      <label>Failed element</label>
+      <input id="element" placeholder="Example: 1-2 or 3">
+      <div class="row" style="margin-top:14px"><button onclick="analyze()">Analyze Impact</button><button onclick="loadTopology()">Refresh</button></div>
+      <p id="topology" class="muted"></p>
+    </div>
+    <div class="card">
+      <h2>Impact Summary</h2>
+      <div class="metrics">
+        <div class="metric"><div class="muted">Score</div><div class="value" id="score">—</div></div>
+        <div class="metric"><div class="muted">Severity</div><div class="value" id="severity">—</div></div>
+        <div class="metric"><div class="muted">Affected Nodes</div><div class="value" id="nodes">—</div></div>
+        <div class="metric"><div class="muted">Disconnected Pairs</div><div class="value" id="pairs">—</div></div>
+      </div>
+      <pre id="details">Run an analysis to see affected paths and alternate routes.</pre>
+    </div>
+  </div>
+</div>
+<script>
+async function loadTopology(){
+  const r=await fetch('/api/topology'); const d=await r.json();
+  document.getElementById('topology').textContent=`Nodes: ${d.nodes.join(', ')} | Links: ${d.links.map(x=>x.join('-')).join(', ')}`;
+}
+async function analyze(){
+  const failure_type=document.getElementById('type').value;
+  const failed_element=document.getElementById('element').value;
+  const r=await fetch('/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({failure_type,failed_element})});
+  const d=await r.json();
+  if(d.error){alert(d.error);return;}
+  document.getElementById('score').textContent=d.impact_score+'/100';
+  document.getElementById('severity').textContent=d.severity;
+  document.getElementById('nodes').textContent=d.affected_nodes.length;
+  document.getElementById('pairs').textContent=d.disconnected_pairs+'/'+d.total_pairs;
+  document.getElementById('details').textContent=JSON.stringify({affected_nodes:d.affected_nodes,affected_paths:d.affected_paths,alternate_paths:d.alternate_paths},null,2);
+}
+loadTopology();
+</script>
+</body>
+</html>

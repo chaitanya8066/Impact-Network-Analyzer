@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.venv/
+ryu-env/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Runtime files
+backend/controller_state.json
+backend/network_state.json
+
+# Environment
+.env
